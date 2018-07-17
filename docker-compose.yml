@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  couchdb:
+    image: couchdb:latest
+    container_name: couchdb
+    ports:
+      - "3000:5984"
+    expose:
+      - "5984"
+    networks:
+      - test_data_network
+    volumes:
+      - "./couchdb/data:/opt/couchdb/data"
+    environment:
+      - COUCHDB_USER=admin
+      - COUCHDB_PASSWORD=password
+  test_data:
+    build:
+      context: "./test-data-api"
+    command: ['node', 'server.js']
+    container_name: tda
+    ports:
+      - "3002:3002"
+    expose:
+      - "3002"
+    networks:
+      - test_data_network
+    links:
+      - couchdb
+      - rabbitmq
+  graphql:
+    build:
+      context: "./graphql-api"
+    command: ['node', 'server.js']
+    container_name: graphql
+    ports:
+      - "3004:3004"
+    expose:
+      - "3004"
+    networks:
+      - test_data_network
+    links:
+      - couchdb
+      - rabbitmq
+  rabbitmq:
+    build:
+      context: "./rabbitmq"
+    networks:
+      - test_data_network
+    container_name: rabbitmq
+    ports:
+      - "3006:5672"
+      - "3008:15672"
+    networks:
+      - test_data_network
+
+
+networks:
+  test_data_network:

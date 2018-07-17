@@ -1,0 +1,16 @@
+{
+  "name": "test-data-api",
+  "version": "1.0.0",
+  "description": "test data api app in docker container",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Josef Salyer",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "17.x.x",
+    "nano": "^6.4.4"
+  }
+}

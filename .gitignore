@@ -1,0 +1,3 @@
+couchdb/config/*
+couchdb/data/*
+**/node_modules
